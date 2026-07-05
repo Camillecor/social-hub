@@ -21,8 +21,12 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    if (!authLoading && user) {
-      loadStats()
+    if (!authLoading) {
+      if (user) {
+        loadStats()
+      } else {
+        setLoading(false)
+      }
     }
   }, [user, authLoading])
 
@@ -52,18 +56,11 @@ export default function Dashboard() {
     }
   }
 
-  if (authLoading || loading) {
-    return (
-      <div className="flex items-center justify-center h-96">
-        <p className="text-gray-400">Chargement...</p>
-      </div>
-    )
-  }
 
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-4xl font-bold mb-2">Bienvenue, {user?.email?.split('@')[0]}</h1>
+        <h1 className="text-4xl font-bold mb-2">Bienvenue, {user?.email?.split('@')[0] || 'Utilisateur'}</h1>
         <p className="text-gray-400">Gérez votre présence sur les réseaux sociaux</p>
       </div>
 
