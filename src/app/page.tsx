@@ -2,65 +2,14 @@
 
 'use client'
 
-import { useEffect, useState } from 'react'
-import { useAuth } from '@/lib/auth'
-import { supabase } from '@/lib/supabase'
 import { Card } from '@/components/ui/card'
 import { Sparkles, TrendingUp } from 'lucide-react'
 
 export default function Dashboard() {
-  const { user, loading: authLoading } = useAuth()
-  const [stats, setStats] = useState({
-    totalPosts: 0,
-    thisWeek: 0,
-    agents: {
-      active: 2,
-      lastRun: 'Il y a 2h',
-    },
-  })
-  const [loading, setLoading] = useState(false)
-
-  useEffect(() => {
-    if (!authLoading) {
-      if (user) {
-        loadStats()
-      } else {
-        setLoading(false)
-      }
-    }
-  }, [user, authLoading])
-
-  const loadStats = async () => {
-    try {
-      const { data: posts, error } = await supabase
-        .from('posts')
-        .select('*')
-        .eq('user_id', user?.id)
-
-      if (!error && posts) {
-        const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-        const thisWeekCount = posts.filter(p =>
-          new Date(p.created_at) > weekAgo
-        ).length
-
-        setStats({
-          ...stats,
-          totalPosts: posts.length,
-          thisWeek: thisWeekCount,
-        })
-      }
-    } catch (e) {
-      console.error('Failed to load stats:', e)
-    } finally {
-      setLoading(false)
-    }
-  }
-
-
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-4xl font-bold mb-2">Bienvenue, {user?.email?.split('@')[0] || 'Utilisateur'}</h1>
+        <h1 className="text-4xl font-bold mb-2">Bienvenue, Utilisateur</h1>
         <p className="text-gray-400">Gérez votre présence sur les réseaux sociaux</p>
       </div>
 
@@ -69,7 +18,7 @@ export default function Dashboard() {
           <div className="flex items-start justify-between">
             <div>
               <p className="text-gray-400 text-sm mb-1">Posts totaux</p>
-              <p className="text-3xl font-bold">{stats.totalPosts}</p>
+              <p className="text-3xl font-bold">0</p>
             </div>
             <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center">
               <TrendingUp className="w-6 h-6 text-blue-400" />
@@ -81,7 +30,7 @@ export default function Dashboard() {
           <div className="flex items-start justify-between">
             <div>
               <p className="text-gray-400 text-sm mb-1">Cette semaine</p>
-              <p className="text-3xl font-bold">{stats.thisWeek}</p>
+              <p className="text-3xl font-bold">0</p>
             </div>
             <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center">
               <TrendingUp className="w-6 h-6 text-green-400" />
@@ -93,8 +42,8 @@ export default function Dashboard() {
           <div className="flex items-start justify-between">
             <div>
               <p className="text-gray-400 text-sm mb-1">Agents actifs</p>
-              <p className="text-3xl font-bold">{stats.agents.active}</p>
-              <p className="text-xs text-gray-500 mt-1">{stats.agents.lastRun}</p>
+              <p className="text-3xl font-bold">2</p>
+              <p className="text-xs text-gray-500 mt-1">Il y a 2h</p>
             </div>
             <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center">
               <Sparkles className="w-6 h-6 text-purple-400" />
