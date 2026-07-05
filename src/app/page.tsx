@@ -1,65 +1,140 @@
-import Image from "next/image";
+// src/app/page.tsx
 
-export default function Home() {
+'use client'
+
+import { useEffect, useState } from 'react'
+import { useAuth } from '@/lib/auth'
+import { supabase } from '@/lib/supabase'
+import { Card } from '@/components/ui/card'
+import { Sparkles, TrendingUp } from 'lucide-react'
+
+export default function Dashboard() {
+  const { user, loading: authLoading } = useAuth()
+  const [stats, setStats] = useState({
+    totalPosts: 0,
+    thisWeek: 0,
+    agents: {
+      active: 2,
+      lastRun: 'Il y a 2h',
+    },
+  })
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (!authLoading && user) {
+      loadStats()
+    }
+  }, [user, authLoading])
+
+  const loadStats = async () => {
+    try {
+      const { data: posts, error } = await supabase
+        .from('posts')
+        .select('*')
+        .eq('user_id', user?.id)
+
+      if (!error && posts) {
+        const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+        const thisWeekCount = posts.filter(p =>
+          new Date(p.created_at) > weekAgo
+        ).length
+
+        setStats({
+          ...stats,
+          totalPosts: posts.length,
+          thisWeek: thisWeekCount,
+        })
+      }
+    } catch (e) {
+      console.error('Failed to load stats:', e)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (authLoading || loading) {
+    return (
+      <div className="flex items-center justify-center h-96">
+        <p className="text-gray-400">Chargement...</p>
+      </div>
+    )
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-4xl font-bold mb-2">Bienvenue, {user?.email?.split('@')[0]}</h1>
+        <p className="text-gray-400">Gérez votre présence sur les réseaux sociaux</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="bg-gray-900/50 border-gray-800 p-6">
+          <div className="flex items-start justify-between">
+            <div>
+              <p className="text-gray-400 text-sm mb-1">Posts totaux</p>
+              <p className="text-3xl font-bold">{stats.totalPosts}</p>
+            </div>
+            <div className="w-12 h-12 rounded-lg bg-blue-500/10 flex items-center justify-center">
+              <TrendingUp className="w-6 h-6 text-blue-400" />
+            </div>
+          </div>
+        </Card>
+
+        <Card className="bg-gray-900/50 border-gray-800 p-6">
+          <div className="flex items-start justify-between">
+            <div>
+              <p className="text-gray-400 text-sm mb-1">Cette semaine</p>
+              <p className="text-3xl font-bold">{stats.thisWeek}</p>
+            </div>
+            <div className="w-12 h-12 rounded-lg bg-green-500/10 flex items-center justify-center">
+              <TrendingUp className="w-6 h-6 text-green-400" />
+            </div>
+          </div>
+        </Card>
+
+        <Card className="bg-gray-900/50 border-gray-800 p-6">
+          <div className="flex items-start justify-between">
+            <div>
+              <p className="text-gray-400 text-sm mb-1">Agents actifs</p>
+              <p className="text-3xl font-bold">{stats.agents.active}</p>
+              <p className="text-xs text-gray-500 mt-1">{stats.agents.lastRun}</p>
+            </div>
+            <div className="w-12 h-12 rounded-lg bg-purple-500/10 flex items-center justify-center">
+              <Sparkles className="w-6 h-6 text-purple-400" />
+            </div>
+          </div>
+        </Card>
+      </div>
+
+      <Card className="bg-gray-900/50 border-gray-800 p-6">
+        <h2 className="text-lg font-bold mb-4">Actions rapides</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          
+            href="/redaction"
+            className="p-4 rounded-lg bg-gray-800/30 hover:bg-gray-800/60 transition-colors text-center"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
+            <p className="text-sm font-medium">✍️ Rédiger</p>
           </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          
+            href="/calendrier"
+            className="p-4 rounded-lg bg-gray-800/30 hover:bg-gray-800/60 transition-colors text-center"
           >
-            Documentation
+            <p className="text-sm font-medium">📅 Calendrier</p>
+          </a>
+          
+            href="/studio-visuel"
+            className="p-4 rounded-lg bg-gray-800/30 hover:bg-gray-800/60 transition-colors text-center"
+          >
+            <p className="text-sm font-medium">🎨 Visuel</p>
+          </a>
+          
+            href="/outils"
+            className="p-4 rounded-lg bg-gray-800/30 hover:bg-gray-800/60 transition-colors text-center"
+          >
+            <p className="text-sm font-medium">🛠️ Outils</p>
           </a>
         </div>
-      </main>
+      </Card>
     </div>
-  );
+  )
 }
