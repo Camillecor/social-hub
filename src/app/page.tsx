@@ -18,7 +18,7 @@ export default function Dashboard() {
       lastRun: 'Il y a 2h',
     },
   })
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     if (!authLoading) {
