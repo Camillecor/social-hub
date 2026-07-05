@@ -109,25 +109,25 @@ export default function Dashboard() {
       <Card className="bg-gray-900/50 border-gray-800 p-6">
         <h2 className="text-lg font-bold mb-4">Actions rapides</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          
+          <a
             href="/redaction"
             className="p-4 rounded-lg bg-gray-800/30 hover:bg-gray-800/60 transition-colors text-center"
           >
             <p className="text-sm font-medium">✍️ Rédiger</p>
           </a>
-          
+          <a
             href="/calendrier"
             className="p-4 rounded-lg bg-gray-800/30 hover:bg-gray-800/60 transition-colors text-center"
           >
             <p className="text-sm font-medium">📅 Calendrier</p>
           </a>
-          
+          <a
             href="/studio-visuel"
             className="p-4 rounded-lg bg-gray-800/30 hover:bg-gray-800/60 transition-colors text-center"
           >
             <p className="text-sm font-medium">🎨 Visuel</p>
           </a>
-          
+          <a
             href="/outils"
             className="p-4 rounded-lg bg-gray-800/30 hover:bg-gray-800/60 transition-colors text-center"
           >
