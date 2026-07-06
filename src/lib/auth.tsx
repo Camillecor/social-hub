@@ -1,9 +1,9 @@
-// src/lib/auth.ts
+// src/lib/auth.tsx
 
 'use client'
 
 import { createContext, useContext, useEffect, useState } from 'react'
-import { User } from '@supabase/supabase-js'
+import type { User } from '@supabase/supabase-js'
 import { supabase } from './supabase'
 
 interface AuthContextType {
@@ -19,42 +19,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    let isMounted = true
-    let timeoutId: NodeJS.Timeout
-
-    const initAuth = async () => {
-      try {
-        const { data: { session } } = await supabase.auth.getSession()
-        if (isMounted) {
-          setUser(session?.user ?? null)
-        }
-      } catch (error) {
-        console.error('Auth initialization error:', error)
-      } finally {
-        if (isMounted) {
-          setLoading(false)
-        }
-      }
+    // No Supabase configured yet → nothing to wait for, render right away.
+    if (!supabase) {
+      setLoading(false)
+      return
     }
 
-    timeoutId = setTimeout(initAuth, 0)
+    let active = true
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (isMounted) {
-        setUser(session?.user ?? null)
-        setLoading(false)
-      }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!active) return
+      setUser(session?.user ?? null)
+      setLoading(false)
+    })
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!active) return
+      setUser(session?.user ?? null)
+      setLoading(false)
     })
 
     return () => {
-      isMounted = false
-      clearTimeout(timeoutId)
-      subscription?.unsubscribe()
+      active = false
+      subscription.unsubscribe()
     }
   }, [])
 
   const signOut = async () => {
-    await supabase.auth.signOut()
+    if (supabase) await supabase.auth.signOut()
     setUser(null)
   }
 

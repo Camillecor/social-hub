@@ -1,20 +1,19 @@
 // src/lib/supabase.ts
 
-import { createClient } from '@supabase/supabase-js'
+import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Supabase URL and Anon Key are required')
-}
+// A value is "real" only if it exists and isn't one of the placeholder
+// strings shipped in .env.local.example.
+const isReal = (value?: string) =>
+  Boolean(value) && !value!.startsWith('your-') && !value!.includes('your-project')
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+// True only when both env vars hold real credentials.
+export const isSupabaseConfigured = isReal(supabaseUrl) && isReal(supabaseAnonKey)
 
-export const supabaseServer = () => {
-  if (!supabaseServiceKey) {
-    throw new Error('Supabase Service Role Key is required for server operations')
-  }
-  return createClient(supabaseUrl, supabaseServiceKey)
-}
+// `null` until Supabase is configured — the app runs fine without it.
+export const supabase: SupabaseClient | null = isSupabaseConfigured
+  ? createClient(supabaseUrl as string, supabaseAnonKey as string)
+  : null
