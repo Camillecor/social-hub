@@ -29,20 +29,20 @@ export function Sidebar() {
   const { user, signOut } = useAuth()
 
   return (
-    <aside className="w-64 bg-gray-900/50 border-r border-gray-800 flex flex-col h-screen">
-      <div className="p-6 border-b border-gray-800">
+    <aside className="w-64 bg-surface border-r border-border flex flex-col h-screen">
+      <div className="px-6 py-7 border-b border-border">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
-            <Sparkles className="w-6 h-6 text-white" />
+          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-sm">
+            <Sparkles className="w-5 h-5 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="font-bold text-lg">Social Hub</h1>
-            <p className="text-xs text-gray-500">Community Manager</p>
+            <h1 className="font-serif text-lg leading-tight">Social Hub</h1>
+            <p className="text-xs text-muted-foreground tracking-wide">Studio Cami IA</p>
           </div>
         </div>
       </div>
 
-      <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
+      <nav className="flex-1 px-3 py-5 space-y-0.5 overflow-y-auto">
         {navigation.map(item => {
           const Icon = item.icon
           const isActive = pathname === item.href
@@ -50,38 +50,38 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors duration-150 ${
                 isActive
-                  ? 'bg-blue-600/20 text-blue-400 border border-blue-500/30'
-                  : 'text-gray-400 hover:bg-gray-800/50 hover:text-gray-200'
+                  ? 'bg-primary-soft text-primary font-medium'
+                  : 'text-muted-foreground hover:bg-muted hover:text-foreground'
               }`}
             >
-              <Icon className="w-5 h-5 flex-shrink-0" />
-              <span className="text-sm font-medium">{item.name}</span>
+              <Icon className="w-[18px] h-[18px] flex-shrink-0" />
+              <span className="text-sm">{item.name}</span>
             </Link>
           )
         })}
       </nav>
 
-      <div className="border-t border-gray-800 p-4 space-y-4">
+      <div className="border-t border-border p-4 space-y-3">
         {user && (
-          <div className="px-3 py-2 bg-gray-800/30 rounded-lg">
-            <p className="text-xs text-gray-500">Connecté</p>
+          <div className="px-3 py-2 bg-muted rounded-lg">
+            <p className="text-xs text-muted-foreground">Connectée</p>
             <p className="text-sm font-medium truncate">{user.email}</p>
           </div>
         )}
 
         <div className="flex gap-2">
-          <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:bg-gray-800/50 text-sm transition-colors">
+          <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground text-sm transition-colors">
             <Settings className="w-4 h-4" />
-            <span>Paramètres</span>
+            <span>Réglages</span>
           </button>
           <button
             onClick={() => signOut()}
-            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-gray-400 hover:bg-red-900/20 hover:text-red-400 text-sm transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-primary-soft hover:text-primary text-sm transition-colors"
           >
             <LogOut className="w-4 h-4" />
-            <span>Déconnexion</span>
+            <span>Sortir</span>
           </button>
         </div>
       </div>

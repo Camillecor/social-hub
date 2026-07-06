@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr" suppressHydrationWarning>
-      <body className="bg-gradient-to-br from-gray-950 via-gray-900 to-black text-gray-100">
+      <body className="bg-background text-foreground antialiased">
         <AuthProvider>
           <div className="flex h-screen overflow-hidden">
             <Sidebar />

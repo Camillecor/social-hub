@@ -1,31 +1,45 @@
 @import "tailwindcss";
 
-:root {
-  --background: 3 10% 10%;
-  --foreground: 0 0% 100%;
-  --card: 220 13% 13%;
-  --card-foreground: 0 0% 100%;
-  --primary: 217 91% 60%;
-  --primary-foreground: 220 13% 13%;
-  --secondary: 217 32% 17%;
-  --secondary-foreground: 0 0% 100%;
-  --muted: 217 14% 38%;
-  --muted-foreground: 217 14% 38%;
-  --accent: 217 91% 60%;
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 100%;
-  --border: 217 15% 20%;
-  --input: 217 15% 20%;
-  --ring: 217 91% 60%;
-  --radius: 0.5rem;
+/*
+  Studio Cami IA — identité visuelle
+  Épuré, rassurant, chaleureux. Base crème + accent terracotta.
+  Tokens Tailwind v4 : chaque --color-* génère bg-*, text-*, border-*, ring-*.
+*/
+@theme {
+  --color-background: #fbf9f5; /* crème chaud (zone principale) */
+  --color-surface: #ffffff; /* cartes, sidebar */
+  --color-foreground: #2b2621; /* encre chaude (texte) */
+
+  --color-muted: #f2ede6; /* fond doux (hover, remplissage) */
+  --color-muted-foreground: #8a8178; /* texte secondaire */
+  --color-border: #ebe4da; /* traits fins */
+
+  --color-primary: #c2694a; /* terracotta (accent signature) */
+  --color-primary-hover: #a9583c;
+  --color-primary-soft: #f6e8e1; /* teinte claire de l'accent */
+  --color-primary-foreground: #ffffff;
+
+  --color-card: #ffffff;
+  --color-card-foreground: #2b2621;
+  --color-ring: #c2694a;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+
+  --radius: 0.85rem;
 }
 
-body {
-  color: hsl(var(--foreground));
-  background-color: hsl(var(--background));
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-}
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
 
-* {
-  border-color: hsl(var(--border));
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
 }
