@@ -6,20 +6,22 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
   Calendar, Image, FileText, Folder,
-  BarChart3, Bell, Link2, Sparkles, Settings, LogOut
+  BarChart3, Bell, Link2, Sparkles, Download, Settings, LogOut
 } from 'lucide-react'
 import { useAuth } from '@/lib/auth'
 
+// Each href matches a real folder in src/app so no link 404s.
 const navigation = [
   { name: 'Dashboard', href: '/', icon: BarChart3 },
   { name: 'Calendrier', href: '/calendrier', icon: Calendar },
-  { name: 'Studio visuel', href: '/studio-visuel', icon: Image },
+  { name: 'Visuels', href: '/visuels', icon: Image },
   { name: 'Rédaction', href: '/redaction', icon: FileText },
   { name: 'Outils', href: '/outils', icon: Sparkles },
-  { name: 'Bibliothèque', href: '/bibliotheque', icon: Folder },
-  { name: 'Analytics', href: '/analytics', icon: BarChart3 },
+  { name: 'Ressources', href: '/ressources', icon: Folder },
+  { name: 'Analyse', href: '/analyse', icon: BarChart3 },
   { name: 'Veille', href: '/veille', icon: Bell },
-  { name: 'Liens & bio', href: '/liens-bio', icon: Link2 },
+  { name: 'Liens & bio', href: '/liens', icon: Link2 },
+  { name: 'Exports', href: '/exports', icon: Download },
 ]
 
 export function Sidebar() {
