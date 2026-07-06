@@ -32,12 +32,15 @@ export function Sidebar() {
     <aside className="w-64 bg-surface border-r border-border flex flex-col h-screen">
       <div className="px-6 py-7 border-b border-border">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-sm">
-            <Sparkles className="w-5 h-5 text-primary-foreground" />
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-cyan flex items-center justify-center shadow-sm">
+            <Sparkles className="w-5 h-5 text-white" />
           </div>
-          <div>
-            <h1 className="font-serif text-lg leading-tight">Social Hub</h1>
-            <p className="text-xs text-muted-foreground tracking-wide">Studio Cami IA</p>
+          <div className="leading-tight">
+            <h1 className="text-lg font-bold">
+              <span className="text-primary">Social</span>
+              <span className="text-cyan">Hub</span>
+            </h1>
+            <p className="text-xs text-muted-foreground tracking-wide">par Studio Cami</p>
           </div>
         </div>
       </div>

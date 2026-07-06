@@ -1,33 +1,40 @@
 @import "tailwindcss";
 
 /*
-  Studio Cami IA — identité visuelle
-  Épuré, rassurant, chaleureux. Base crème + accent terracotta.
+  Studio Cami — identité visuelle
+  Bleu ciel + bleu roi + cyan, accent orange corail, navy pour les blocs sombres.
   Tokens Tailwind v4 : chaque --color-* génère bg-*, text-*, border-*, ring-*.
 */
 @theme {
-  --color-background: #fbf9f5; /* crème chaud (zone principale) */
+  --color-background: #eaf2fc; /* bleu ciel pâle (zone principale) */
   --color-surface: #ffffff; /* cartes, sidebar */
-  --color-foreground: #2b2621; /* encre chaude (texte) */
+  --color-foreground: #14192b; /* encre navy (texte) */
 
-  --color-muted: #f2ede6; /* fond doux (hover, remplissage) */
-  --color-muted-foreground: #8a8178; /* texte secondaire */
-  --color-border: #ebe4da; /* traits fins */
+  --color-muted: #eef3fa; /* fond doux (hover, remplissage) */
+  --color-muted-foreground: #5b6577; /* texte secondaire */
+  --color-border: #e1e8f2; /* traits fins */
 
-  --color-primary: #c2694a; /* terracotta (accent signature) */
-  --color-primary-hover: #a9583c;
-  --color-primary-soft: #f6e8e1; /* teinte claire de l'accent */
+  --color-primary: #2563eb; /* bleu roi (marque, liens, actif) */
+  --color-primary-hover: #1d4fd0;
+  --color-primary-soft: #dceafe; /* teinte claire du bleu */
   --color-primary-foreground: #ffffff;
 
+  --color-accent: #fb6a2e; /* orange corail (boutons d'action) */
+  --color-accent-hover: #ec5a1f;
+  --color-accent-foreground: #ffffff;
+
+  --color-cyan: #22b8f0; /* cyan secondaire (Cami) */
+  --color-navy: #13224a; /* blocs sombres */
+
   --color-card: #ffffff;
-  --color-card-foreground: #2b2621;
-  --color-ring: #c2694a;
+  --color-card-foreground: #14192b;
+  --color-ring: #2563eb;
 
-  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  --font-serif: var(--font-playfair), Georgia, "Times New Roman", serif;
 
-  --radius: 0.85rem;
+  --radius: 1rem;
 }
 
 @layer base {
