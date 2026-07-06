@@ -29,16 +29,15 @@ export function Sidebar() {
   const { user, signOut } = useAuth()
 
   return (
-    <aside className="w-64 bg-surface border-r border-border flex flex-col h-screen">
-      <div className="px-6 py-7 border-b border-border">
+    <aside className="glass w-64 flex flex-col h-screen border-r-0 rounded-none">
+      <div className="px-6 py-7 border-b border-white/50">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-cyan flex items-center justify-center shadow-sm">
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <div className="leading-tight">
-            <h1 className="text-lg font-bold">
-              <span className="text-primary">Social</span>
-              <span className="text-cyan">Hub</span>
+            <h1 className="font-heading text-base font-bold text-foreground">
+              Tableau de bord
             </h1>
             <p className="text-xs text-muted-foreground tracking-wide">par Studio Cami</p>
           </div>
@@ -56,7 +55,7 @@ export function Sidebar() {
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors duration-150 ${
                 isActive
                   ? 'bg-primary-soft text-primary font-medium'
-                  : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                  : 'text-muted-foreground hover:bg-white/60 hover:text-foreground'
               }`}
             >
               <Icon className="w-[18px] h-[18px] flex-shrink-0" />
@@ -66,16 +65,16 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="border-t border-border p-4 space-y-3">
+      <div className="border-t border-white/50 p-4 space-y-3">
         {user && (
-          <div className="px-3 py-2 bg-muted rounded-lg">
+          <div className="px-3 py-2 bg-white/50 rounded-lg">
             <p className="text-xs text-muted-foreground">Connectée</p>
             <p className="text-sm font-medium truncate">{user.email}</p>
           </div>
         )}
 
         <div className="flex gap-2">
-          <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground text-sm transition-colors">
+          <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-white/60 hover:text-foreground text-sm transition-colors">
             <Settings className="w-4 h-4" />
             <span>Réglages</span>
           </button>

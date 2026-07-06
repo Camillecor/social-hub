@@ -1,29 +1,28 @@
 // src/app/layout.tsx
 
 import type { Metadata } from 'next'
-import { Poppins, Playfair_Display } from 'next/font/google'
+import { Plus_Jakarta_Sans, Space_Grotesk } from 'next/font/google'
 import { AuthProvider } from '@/lib/auth'
 import { Sidebar } from '@/components/layouts/Sidebar'
 import './globals.css'
 
-const poppins = Poppins({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
-  variable: '--font-poppins',
+  variable: '--font-jakarta',
   display: 'swap',
 })
 
-const playfair = Playfair_Display({
+const grotesk = Space_Grotesk({
   subsets: ['latin'],
   weight: ['500', '600', '700'],
-  style: ['normal', 'italic'],
-  variable: '--font-playfair',
+  variable: '--font-grotesk',
   display: 'swap',
 })
 
 export const metadata: Metadata = {
-  title: 'Social Hub',
-  description: 'Community Manager & Web Designer Dashboard — Studio Cami IA',
+  title: 'Tableau de bord — Social Hub',
+  description: 'Community Manager & Web Designer Dashboard — Studio Cami',
 }
 
 export default function RootLayout({
@@ -34,15 +33,15 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${poppins.variable} ${playfair.variable}`}
+      className={`${jakarta.variable} ${grotesk.variable}`}
       suppressHydrationWarning
     >
-      <body className="bg-background text-foreground antialiased">
+      <body className="bg-app-gradient text-foreground antialiased">
         <AuthProvider>
           <div className="flex h-screen overflow-hidden">
             <Sidebar />
-            <main className="flex-1 overflow-auto">
-              <div className="p-8 md:p-12">{children}</div>
+            <main className="flex-1 overflow-auto relative">
+              <div className="p-8 md:p-12 relative z-10">{children}</div>
             </main>
           </div>
         </AuthProvider>
